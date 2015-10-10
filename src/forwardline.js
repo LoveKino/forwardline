@@ -25,7 +25,7 @@ export default (searchMap) => {
     let addSearchRule = (name, searchRule) => {
         typeChecker.check("string", name);
         typeChecker.check("pureObj", searchRule);
-        typeChecker.check("pureObj", searchRule.filter);
+        typeChecker.check("array", searchRule.filter);
         searchRule.filter = filter.getFilter(searchRule.filter);
         forwardline.addSearchRule(name, searchRule);
     }

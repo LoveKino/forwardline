@@ -1,6 +1,6 @@
 {
   "name": "forwardline",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Forward Line Model",
   "main": "index.js",
   "scripts": {

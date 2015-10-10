@@ -5,7 +5,22 @@ var typeChecker = TypeChecker();
 /**
  * type: equal, in, regular
  */
-var getFilter = (obj) => {
+var getFilter = (list) => {
+    let items = [];
+    for(let i=0;i<list.length;i++){
+        items.push(getSingleFilter(list[i]));
+    }
+    return (data) => {
+        for(let i=0;i<items.length;i++){
+            if(!items[i](data)){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+var getSingleFilter = (obj) => {
     let name = obj.name;
     let type = obj.type || "equal";
     let value = obj.value;

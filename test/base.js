@@ -5,11 +5,11 @@ describe("forwardline", () => {
     it("base", () => {
         let forward = Forwardline({
             "type1": [{
-                filter: {
+                filter: [{
                     name: "type",
                     type: "in",
                     value: ["a", "b"]
-                },
+                }],
                 dis: 1
             }]
         });
@@ -35,11 +35,11 @@ describe("forwardline", () => {
         let forward = Forwardline();
 
         forward.addSearchRule("type1", {
-            filter: {
+            filter: [{
                 name: "type",
                 type: "in",
                 value: ["a", "b"]
-            },
+            }],
             dis: 1
         });
 
@@ -64,20 +64,20 @@ describe("forwardline", () => {
         let forward = Forwardline();
 
         forward.addSearchRule("type1", {
-            filter: {
+            filter: [{
                 name: "type",
                 type: "in",
                 value: ["c"]
-            },
+            }],
             dis: 1
         });
 
         forward.setSearchRules("type1", [{
-            filter: {
+            filter: [{
                 name: "type",
                 type: "in",
                 value: ["a", "b"]
-            },
+            }],
             dis: 1
         }]);
 
@@ -99,11 +99,11 @@ describe("forwardline", () => {
     it("base", () => {
         let forward = Forwardline({
             "type1": [{
-                filter: {
+                filter: [{
                     name: "type",
                     type: "equal",
                     value: "a"
-                },
+                }],
                 dis: 1
             }]
         });
@@ -126,11 +126,11 @@ describe("forwardline", () => {
     it("base", () => {
         let forward = Forwardline({
             "type1": [{
-                filter: {
+                filter: [{
                     name: "type",
                     type: "regular",
                     value: /number/
-                },
+                }],
                 dis: 1
             }]
         });
@@ -147,6 +147,47 @@ describe("forwardline", () => {
         }).search("type1", res => {
             assert.equal(res.length, 1);
             assert.equal(res[0].type, "number");
+        });
+    })
+
+    it("filter multi", () => {
+        let forward = Forwardline({
+            "type1": [{
+                filter: [{
+                    name: "type",
+                    type: "regular",
+                    value: /number/
+                }, {
+                    name: "from",
+                    value: "a"
+                }],
+                dis: 1
+            }, {
+                filter: [{
+                    name: "from",
+                    value: "b"
+                }],
+                dis: 1
+            }]
+        });
+        
+        forward.store({
+            type: "number",
+            from: "a"
+        }).search("type1", res => {}).store({
+            type: "2c",
+            from: "b"
+        }).search("type1", res => {
+            assert.equal(res.length, 2);
+            assert.equal(res[0].type, "number");
+            assert.equal(res[1], undefined);
+
+        }).store({
+            type: "2b"
+        }).search("type1", res => {
+            assert.equal(res.length, 2);
+            assert.equal(res[0].type, "number");
+            assert.equal(res[1].from, "b");
         });
     })
 })
