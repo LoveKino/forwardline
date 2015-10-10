@@ -37,10 +37,20 @@ export default (searchMap) => {
             addSearchRule(name, searchRule);
         }
     }
+
+    let setSearchRules = (name, searchRules) => {
+        forwardline.setSearchRules(name, []);
+        for (let i = 0; i < searchRules.length; i++) {
+            addSearchRule(name, searchRules[i]);
+        }
+    }
+
+    let setSearchRule = (name, searchRule) => {}
     return {
         store: forwardline.store,
         getLength: forwardline.getLength,
         release: forwardline.release,
-        addSearchRule
+        addSearchRule,
+        setSearchRules
     };
 }

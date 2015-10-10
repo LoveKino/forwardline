@@ -19,11 +19,15 @@ var typeChecker = TypeChecker();
 var validateMap = searchMap => {
     for (let name in searchMap) {
         let searchRules = searchMap[name];
-        typeChecker.check("array", searchRules);
-        for (let i = 0; i < searchRules.length; i++) {
-            let searchRule = searchRules[i];
-            checkSearchRule(name, searchRule);
-        }
+        validateRules(name, searchRules);
+    }
+}
+
+var validateRules = (name, searchRules) => {
+    typeChecker.check("array", searchRules);
+    for (let i = 0; i < searchRules.length; i++) {
+        let searchRule = searchRules[i];
+        checkSearchRule(name, searchRule);
     }
 }
 
@@ -38,6 +42,11 @@ var addSearchRule = (searchMap, name, searchRule) => {
     checkSearchRule(name, searchRule);
     searchMap[name] = searchMap[name] || [];
     searchMap[name].push(searchRule);
+}
+
+var setSearchRules = (searchMap, name, searchRules) => {
+    validateRules(name, searchRules);
+    searchMap[name] = searchRules;
 }
 
 var searchByType = (refer, searchRules, cb) => {
@@ -116,6 +125,7 @@ export default (searchMap = {}) => {
         release: () => {
             releaser.release(waitList, head, searchMap);
         },
-        addSearchRule: (name, searchRule) => addSearchRule(searchMap, name, searchRule)
+        addSearchRule: (name, searchRule) => addSearchRule(searchMap, name, searchRule),
+        setSearchRules: (name, searchRules) => setSearchRules(searchMap, name, searchRules)
     }
 }
