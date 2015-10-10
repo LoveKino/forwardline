@@ -10,7 +10,7 @@ var release = (waitList, head, searchMap) => {
 }
 
 var releaseNew = (waitList, head, searchMap) => {
-    let next = waitList[0].getNext();
+    let next = waitList[0] && waitList[0].getNext();
     while (next && next !== head) {
         let should = false;
         if (!contain(waitList, next) &&
