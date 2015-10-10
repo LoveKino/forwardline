@@ -22,11 +22,22 @@ var validateMap = searchMap => {
         typeChecker.check("array", searchRules);
         for (let i = 0; i < searchRules.length; i++) {
             let searchRule = searchRules[i];
-            typeChecker.check("pureObj", searchRule);
-            typeChecker.check("function", searchRule.filter);
-            typeChecker.check("number", searchRule.dis);
+            checkSearchRule(name, searchRule);
         }
     }
+}
+
+var checkSearchRule = (name, searchRule) => {
+    typeChecker.check("string & truthy", name);
+    typeChecker.check("pureObj", searchRule);
+    typeChecker.check("function", searchRule.filter);
+    typeChecker.check("number", searchRule.dis);
+}
+
+var addSearchRule = (searchMap, name, searchRule) => {
+    checkSearchRule(name, searchRule);
+    searchMap[name] = searchMap[name] || [];
+    searchMap[name].push(searchRule);
 }
 
 var searchByType = (refer, searchRules, cb) => {
@@ -104,6 +115,7 @@ export default (searchMap = {}) => {
         getLength: () => line.getLength(head),
         release: () => {
             releaser.release(waitList, head, searchMap);
-        }
+        },
+        addSearchRule: (name, searchRule) => addSearchRule(searchMap, name, searchRule)
     }
 }

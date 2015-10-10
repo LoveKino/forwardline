@@ -5,19 +5,6 @@ import TypeChecker from "typevalidator";
 
 var typeChecker = TypeChecker();
 
-var validateMap = searchMap => {
-    for (let name in searchMap) {
-        let searchRules = searchMap[name];
-        typeChecker.check("array", searchRules);
-        for (let i = 0; i < searchRules.length; i++) {
-            let searchRule = searchRules[i];
-            typeChecker.check("pureObj", searchRule);
-            typeChecker.check("pureObj", searchRule.filter);
-            typeChecker.check("number", searchRule.dis);
-        }
-    }
-}
-
 /**
  *
  * searchMap
@@ -33,14 +20,27 @@ var validateMap = searchMap => {
  */
 
 export default (searchMap) => {
-    validateMap(searchMap);
+    let forwardline = forward();
+
+    let addSearchRule = (name, searchRule) => {
+        typeChecker.check("string", name);
+        typeChecker.check("pureObj", searchRule);
+        typeChecker.check("pureObj", searchRule.filter);
+        searchRule.filter = filter.getFilter(searchRule.filter);
+        forwardline.addSearchRule(name, searchRule);
+    }
     for (let name in searchMap) {
         let searchRules = searchMap[name];
+        typeChecker.check("array", searchRules);
         for (let i = 0; i < searchRules.length; i++) {
             let searchRule = searchRules[i];
-            searchRule.filter = filter.getFilter(searchRule.filter);
+            addSearchRule(name, searchRule);
         }
     }
-    let forwardline = forward(searchMap);
-    return forwardline;
+    return {
+        store: forwardline.store,
+        getLength: forwardline.getLength,
+        release: forwardline.release,
+        addSearchRule
+    };
 }

@@ -54,12 +54,9 @@ describe("forward", () => {
             }]
         });
 
-        forward.store(10, "type1", res => {
-        });
-        forward.store(11, "type1", res => {
-        });
-        forward.store(5, "type1", res => {
-        });
+        forward.store(10, "type1", res => {});
+        forward.store(11, "type1", res => {});
+        forward.store(5, "type1", res => {});
 
         assert.equal(forward.getLength(), 3);
     })
