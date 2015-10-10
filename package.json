@@ -1,0 +1,32 @@
+{
+  "name": "forwardline",
+  "version": "0.0.1",
+  "description": "Forward Line Model",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel/register test/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LoveKino/forwardline.git"
+  },
+  "dependencies": {
+    "typevalidator": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "babel": "*",
+    "chokidar": "*"
+  },
+  "keywords": [
+    "forward",
+    "line",
+    "timeline"
+  ],
+  "author": "ddchen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LoveKino/forwardline/issues"
+  },
+  "homepage": "https://github.com/LoveKino/forwardline#readme"
+}
