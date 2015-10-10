@@ -10,15 +10,13 @@ describe("forward", () => {
             }]
         });
 
-        forward.store(10, "type1", res => {
+        forward.store(10).search("type1", res => {
             assert.equal(res.length, 1);
             assert.equal(res[0], undefined);
-        });
-        forward.store(11, "type1", res => {
+        }).store(11).search("type1", res => {
             assert.equal(res.length, 1);
             assert.equal(res[0], undefined);
-        });
-        forward.store(5, "type1", res => {
+        }).store(5).search("type1", res => {
             assert.equal(res.length, 1);
             assert.equal(res[0], 11);
         });
@@ -36,11 +34,15 @@ describe("forward", () => {
             }]
         });
 
-        forward.store("ok", "type1", res => {});
-        forward.store("why", "type1", res => {});
-        forward.store({}, "type1", res => {});
-        forward.store("one", "type1", res => {});
-        forward.store(5, "type2", res => {
+        forward.store("ok").
+        search("type1", res => {}).
+        store("why").
+        search("type1", res => {}).
+        store({}).
+        search("type1", res => {}).
+        store("one").
+        search("type1", res => {}).
+        store(5).search("type2", res => {
             assert.equal(res.length, 1);
             assert.equal(res[0], "why");
         });
@@ -54,9 +56,9 @@ describe("forward", () => {
             }]
         });
 
-        forward.store(10, "type1", res => {});
-        forward.store(11, "type1", res => {});
-        forward.store(5, "type1", res => {});
+        forward.store(10).search("type1", res => {}).
+        store(11).search("type1", res => {}).
+        store(5).search("type1", res => {});
 
         assert.equal(forward.getLength(), 3);
     })
@@ -72,31 +74,24 @@ describe("forward", () => {
             }]
         });
 
-        forward.store("ok", "type1", res => {
+        forward.store("ok").search("type1", res => {
             assert.equal(res.length, 2);
             assert.equal(res[0], undefined);
             assert.equal(res[1], undefined);
-        });
-        forward.store(15, "type1", res => {
+        }).store(15).search("type1", res => {
             assert.equal(res.length, 2);
             assert.equal(res[0], undefined);
             assert.equal(res[1], undefined);
-        });
-
-        forward.store(17, "type1", res => {
+        }).store(17).search("type1", res => {
             assert.equal(res.length, 2);
             assert.equal(res[0], 15);
             assert.equal(res[1], undefined);
-        });
-
-        forward.store(18, "type1", res => {
+        }).store(18).search("type1", res => {
             assert.equal(res.length, 2);
             assert.equal(res[0], 17);
             assert.equal(res[1], 19);
             done();
-        }, 20);
-
-        forward.store(19, "type1", res => {
+        }, 20).store(19).search("type1", res => {
             assert.equal(res.length, 2);
             assert.equal(res[0], 18);
             assert.equal(res[1], undefined);
@@ -114,33 +109,26 @@ describe("forward", () => {
             }]
         });
 
-        forward.store("ok", "type1", res => {
+        forward.store("ok").search("type1", res => {
             assert.equal(res.length, 2);
             assert.equal(res[0], undefined);
             assert.equal(res[1], undefined);
-        });
-        forward.store(15, "type1", res => {
+        }).store(15).search("type1", res => {
             assert.equal(res.length, 2);
             assert.equal(res[0], undefined);
             assert.equal(res[1], undefined);
-        });
-
-        forward.store(17, "type1", res => {
+        }).store(17).search("type1", res => {
             assert.equal(res.length, 2);
             assert.equal(res[0], 15);
             assert.equal(res[1], undefined);
-        });
-
-        forward.store(18, "type1", res => {
+        }).store(18).search("type1", res => {
             assert.equal(res.length, 2);
             assert.equal(res[0], 17);
             assert.equal(res[1], 19);
             done();
         }, new Promise(r => {
             setTimeout(() => r(), 100);
-        }));
-
-        forward.store(19, "type1", res => {
+        })).store(19).search("type1", res => {
             assert.equal(res.length, 2);
             assert.equal(res[0], 18);
             assert.equal(res[1], undefined);

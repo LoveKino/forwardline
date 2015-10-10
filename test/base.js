@@ -83,16 +83,14 @@ describe("forwardline", () => {
 
         forward.store({
             type: "a"
-        }, "type1", res => {});
-        forward.store({
+        }).search("type1", res => {}).store({
             type: "c"
-        }, "type1", res => {
+        }).search("type1", res => {
             assert.equal(res.length, 1);
             assert.equal(res[0].type, "a");
-        });
-        forward.store({
+        }).store({
             type: "b"
-        }, "type1", res => {
+        }).search("type1", res => {
             assert.equal(res.length, 1);
             assert.equal(res[0].type, "a");
         });
@@ -112,16 +110,14 @@ describe("forwardline", () => {
 
         forward.store({
             type: "a"
-        }, "type1", res => {});
-        forward.store({
+        }).search("type1", res => {}).store({
             type: "c"
-        }, "type1", res => {
+        }).search("type1", res => {
             assert.equal(res.length, 1);
             assert.equal(res[0].type, "a");
-        });
-        forward.store({
+        }).store({
             type: "b"
-        }, "type1", res => {
+        }).search("type1", res => {
             assert.equal(res.length, 1);
             assert.equal(res[0].type, "a");
         });
@@ -141,16 +137,14 @@ describe("forwardline", () => {
 
         forward.store({
             type: "number"
-        }, "type1", res => {});
-        forward.store({
+        }).search("type1", res => {}).store({
             type: "2c"
-        }, "type1", res => {
+        }).search("type1", res => {
             assert.equal(res.length, 1);
             assert.equal(res[0].type, "number");
-        });
-        forward.store({
+        }).store({
             type: "2b"
-        }, "type1", res => {
+        }).search("type1", res => {
             assert.equal(res.length, 1);
             assert.equal(res[0].type, "number");
         });

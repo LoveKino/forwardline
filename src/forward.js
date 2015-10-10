@@ -96,9 +96,15 @@ export default (searchMap = {}) => {
      * type : trigger which kind of search rules to search line
      * wait : delay search or not
      */
-    var store = (data, type, cb, wait) => {
-        // push first
+    var store = (data) => {
         push(data);
+        return {
+            search,
+            store
+        };
+    }
+
+    var search = (type, cb, wait) => {
         let refer = head;
         let searchRules = searchMap[type];
         if (typeof wait === "number") {
@@ -116,11 +122,16 @@ export default (searchMap = {}) => {
         } else {
             searchByType(refer, searchRules, cb);
         }
+        return {
+            search,
+            store
+        };
     }
 
     //
     return {
         store,
+        search,
         getLength: () => line.getLength(head),
         release: () => {
             releaser.release(waitList, head, searchMap);

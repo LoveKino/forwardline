@@ -48,6 +48,7 @@ export default (searchMap) => {
     let setSearchRule = (name, searchRule) => {}
     return {
         store: forwardline.store,
+        search: forwardline.search,
         getLength: forwardline.getLength,
         release: forwardline.release,
         addSearchRule,
