@@ -5,14 +5,33 @@ var typeChecker = TypeChecker();
 /**
  * type: equal, in, regular
  */
-var getFilter = (list) => {
+var getFilter = (matrix) => {
+    typeChecker.check("array", matrix);
+
     let items = [];
-    for(let i=0;i<list.length;i++){
+    for (let i = 0; i < matrix.length; i++) {
+        items.push(getAndFilter(matrix[i]));
+    }
+    return (data) => {
+        for (let i = 0; i < items.length; i++) {
+            if (items[i](data)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+var getAndFilter = (list) => {
+    typeChecker.check("array", list);
+
+    let items = [];
+    for (let i = 0; i < list.length; i++) {
         items.push(getSingleFilter(list[i]));
     }
     return (data) => {
-        for(let i=0;i<items.length;i++){
-            if(!items[i](data)){
+        for (let i = 0; i < items.length; i++) {
+            if (!items[i](data)) {
                 return false;
             }
         }
