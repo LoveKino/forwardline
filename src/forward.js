@@ -98,14 +98,14 @@ export default (searchMap = {}) => {
      */
     var store = (data) => {
         push(data);
+        let refer = head;
         return {
-            search,
+            search: (type, cb, wait) => search(type, cb, wait, refer),
             store
         };
     }
 
-    var search = (type, cb, wait) => {
-        let refer = head;
+    var search = (type, cb, wait, refer = head) => {
         let searchRules = searchMap[type];
         if (typeof wait === "number") {
             waitList.push(refer);
@@ -131,7 +131,6 @@ export default (searchMap = {}) => {
     //
     return {
         store,
-        search,
         getLength: () => line.getLength(head),
         release: () => {
             releaser.release(waitList, head, searchMap);

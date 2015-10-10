@@ -134,4 +134,28 @@ describe("forward", () => {
             assert.equal(res[1], undefined);
         });
     })
+
+    it("search async", (done) => {
+        let forward = Forward({
+            "type1": [{
+                filter: v => v > 10,
+                dis: 1
+            }, {
+                filter: v => v > 10,
+                dis: -1
+            }]
+        });
+
+        forward.store(9);
+        forward.store(11).search("type1", res => {
+            console.log(res);
+            assert.equal(res.length, 2);
+            assert.equal(res[0], undefined);
+            assert.equal(res[1], 13);
+            done();
+        }, 50);
+        forward.store(13).search("typeof", res => {
+            console.log(res);
+        }, 30)
+    })
 })
