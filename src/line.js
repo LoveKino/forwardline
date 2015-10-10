@@ -36,6 +36,50 @@ var search = (refer, filter, dis) => {
     }
 }
 
+/**
+ * when outofRule is true, for any node beyond refer, target won't match
+ * with filter and dis.
+ */
+var outofSearch = (refer, target, filter, dis) => {
+    let tdis = getDis(refer, target, filter);
+    return tdis === null || tdis > dis;
+}
+
+var getLength = (refer) => {
+    let back = findHead(refer);
+    let counter = 0;
+    while(back){
+        counter ++;
+        back = back.getNext();
+    }
+    return counter;
+}
+
+/**
+ * * -------------target-----------refer------------target------------
+ *                  |----dis > 0-----|-----dis < 0----|
+ */
+var getDis = (refer, target, filter) => {
+    if (!filter(target.getData())) return null;
+    let back = refer,
+        forward = refer,
+        backDis = 0,
+        forwardDis = 0;
+    while (back || forward) {
+        if (back === target) return backDis;
+        if (forward === target) return forwardDis;
+        back = back && back.getPrev();
+        forward = forward && forward.getNext();
+        if (back && filter(back.getData())) {
+            backDis++;
+        }
+        if (forward && filter(forward.getData())) {
+            forwardDis--;
+        }
+    }
+    return null;
+}
+
 var print = (refer) => {
     let cur = findHead(refer);
     let str = "";
@@ -57,6 +101,8 @@ var findHead = refer => {
 }
 
 export default {
+    getLength,
     search,
-    print
+    print,
+    outofSearch
 }

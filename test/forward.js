@@ -46,6 +46,24 @@ describe("forward", () => {
         });
     })
 
+    it("getLength", () => {
+        let forward = Forward({
+            "type1": [{
+                filter: v => v > 10,
+                dis: 1
+            }]
+        });
+
+        forward.store(10, "type1", res => {
+        });
+        forward.store(11, "type1", res => {
+        });
+        forward.store(5, "type1", res => {
+        });
+
+        assert.equal(forward.getLength(), 3);
+    })
+
     it("wait no", (done) => {
         let forward = Forward({
             "type1": [{
